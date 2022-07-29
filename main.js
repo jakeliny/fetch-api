@@ -4,97 +4,110 @@
 /*
 Não funciona no IE
 */
-const url = "http://localhost:5500/api"
+const url = 'http://localhost:5500/api';
 
-function getUsers() {
-  fetch(url)
-    .then(response => {
-      console.log(`getUsers statusCode: ${response.status}`)
-      return response.json()
-    })
-    .then(data => renderApiResult.textContent = JSON.stringify(data))
-    .catch(error => console.error(error))
+async function getUsers() {
+  try {
+    const response = await fetch(url);
+
+    console.log(`getUsers with status ${response.status}`);
+
+    const data = await response.json();
+
+    renderApiResult.textContent = JSON.stringify(data);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-function getUser(id) {
-  fetch(`${url}/${id}`)
-    .then(response => {
-      console.log(`getUser statusCode: ${response.status}`)
-      return response.json()
-    })
-    .then(data => {
-      userAvatar.src = data.avatar
-      userNome.textContent = data.name
-      userId.textContent = data.id
-      userCity.textContent = data.city
-    })
-    .catch(error => console.error(error))
+async function getUser(id) {
+  try {
+    const response = await fetch(`${url}/${id}`);
+
+    console.log(`getUser with status ${response.status}`);
+
+    const data = await response.json();
+
+    userAvatar.src = data.avatar;
+    userName.textContent = data.name;
+    userId.textContent = data.id;
+    userCity.textContent = data.city;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-function addNewUser(newUser) {
-  fetch(url, {
-      method: "POST",
+async function addNewUser(newUser) {
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
       body: JSON.stringify(newUser),
       headers: {
-        "Content-type": "application/json; charset=UTF-8"
+        'Content-type': 'application/json; charset=UTF-8'
       }
-    })
-    .then(response => {
-      console.log(`getUser statusCode: ${response.status}`)
-      return response.json()
-    })
-    .then(data => alert(data))
-    .catch(error => console.error(error));
+    });
+
+    const data = await response.json();
+
+    alert(data);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-function updateUser(user, id) {
-  fetch(`${url}/${id}`, {
-      method: "PUT",
+async function updateUser(user, id) {
+  try {
+    const response = await fetch(`${url}/${id}`, {
+      method: 'PUT',
       body: JSON.stringify(user),
       headers: {
-        "Content-type": "application/json; charset=UTF-8"
+        'Content-type': 'application/json; charset=UTF-8'
       }
-    })
-    .then(response => {
-      console.log(`UpdateUser statusCode: ${response.status}`)
-      return response.json()
-    })
-    .then(data => alert(data))
-    .catch(error => console.error(error));
+    });
 
+    const data = await response.json();
+
+    alert(data);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-function deleteUser(id) {
-  fetch(`${url}/${id}`, {
-      method: "DELETE",
+async function deleteUser(id) {
+  try {
+    const response = await fetch(`${url}/${id}`, {
+      method: 'DELETE',
       headers: {
-        "Content-type": "application/json; charset=UTF-8"
+        'Content-type': 'application/json; charset=UTF-8'
       }
-    })
-    .then(response => {
-      console.log(`deleteUser statusCode: ${response.status}`)
-      return response.json()
-    })
-    .then(data => alert(data))
-    .catch(error => console.error(error))
-}
+    });
 
+    const data = await response.json();
+
+    alert(data);
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 //post
 // addNewUser({
-//   name: "Olivia Zars",
-//   avatar: "http://lorempixel.com/400/200",
-//   city: "Rio do Sul"
+//   name: 'Olivia Zars',
+//   avatar: 'http://lorempixel.com/400/200',
+//   city: 'Rio do Sul'
 // });
 
-// updateUser({
-//   name: "Marcelo Calvis",
-//   avatar: "http://lorempixel.com/400/200",
-//   city: "Recife"
-// }, 5);
+// updateUser(
+//   {
+//     name: 'Marcelo Calvis',
+//     avatar: 'http://lorempixel.com/400/200',
+//     city: 'Recife'
+//   },
+//   2
+// );
 
 //delete
-// deleteUser(3);
+// deleteUser(2);
 
 //gets
 getUsers();
